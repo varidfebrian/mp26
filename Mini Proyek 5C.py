@@ -24,7 +24,6 @@ def baca_user():
                     users[baris[0]] = baris[1]
     return users
 
-
 def simpan_user(users):
     with open(FILE_USER, "w", newline="", encoding="utf-8") as f:
         tulis = csv.writer(f)
@@ -90,16 +89,43 @@ def tambah_data(data):
 
 
 def tampil(data):
-    print(f"\n{'No':<4}{'Wilayah':<22}{'Periode':<13}{'BlmVer':>7}{'BlmTL':>7}"
-          f"{'Proses':>7}{'Selesai':>8}{'Tunda':>7}{'Arsip':>7}{'Total':>7}")
-    print("-" * 89)
-    no = 1
-    for b in data:
-        print(f"{no:<4}{b['kabupaten_kota']:<22}{b['periode_update']:<13}"
-              f"{b['belum_terverifikasi']:>7}{b['belum_ditindaklanjuti']:>7}"
-              f"{b['proses']:>7}{b['selesai']:>8}{b['tunda']:>7}"
-              f"{b['arsip']:>7}{b['total']:>7}")
-        no += 1
+    print("\n" + "=" * 180)
+
+    print(f"{'No':<4}{'Wilayah':<18}{'Periode':<17}"
+          f"{'BlmVer':>8}{'BlmTL':>8}{'Proses':>8}"
+          f"{'Selesai':>8}{'Tunda':>8}{'Arsip':>8}"
+          f"{'Total':>8}{'Tindak Lanjut':>17}{'Rekomendasi':<65}")
+
+    print("=" * 180)
+
+    for no, b in enumerate(data, start=1):
+
+        if b["belum_ditindaklanjuti"] > 0:
+            tindak = "YA"
+            utama = "belum_ditindaklanjuti"
+
+            for k in ["belum_terverifikasi", "tunda", "proses"]:
+                if b[k] > b[utama]:
+                    utama = k
+
+            rekomendasi = SARAN[utama]
+        else:
+            tindak = "TIDAK"
+            rekomendasi = "Tidak perlu tindak lanjut."
+
+        print(f"{no:<4}{b['kabupaten_kota']:<18}"
+              f"{b['periode_update']:<17}"
+              f"{b['belum_terverifikasi']:>8}"
+              f"{b['belum_ditindaklanjuti']:>8}"
+              f"{b['proses']:>8}"
+              f"{b['selesai']:>8}"
+              f"{b['tunda']:>8}"
+              f"{b['arsip']:>8}"
+              f"{b['total']:>8}"
+              f"{tindak:>17}"
+              f"{rekomendasi:<65}")
+
+        print("-" * 180)
 
 
 def cari(data):
@@ -112,7 +138,6 @@ def cari(data):
         print("Data tidak ditemukan.")
     else:
         tampil(hasil)
-
 
 def ringkasan(data):
     jumlah = {}
@@ -141,21 +166,18 @@ def ringkasan(data):
 
 
 def tindak_lanjut(data):
-    print("\n=== PERLU TINDAK LANJUT ===")
-    ada = False
+    hasil = []
+
     for b in data:
         if b["belum_ditindaklanjuti"] > 0:
-            ada = True
-            utama = "belum_ditindaklanjuti"
-            for k in ["belum_terverifikasi", "tunda", "proses"]:
-                if b[k] > b[utama]:
-                    utama = k
-            print("\n" + b["kabupaten_kota"], "(" + b["periode_update"] + ")")
-            print("Belum ditindaklanjuti:", b["belum_ditindaklanjuti"])
-            print("Rekomendasi:", SARAN[utama])
-    if not ada:
-        print("Semua pengaduan sudah ditindaklanjuti.")
+            hasil.append(b)
 
+    print("\n=== PERLU TINDAK LANJUT ===")
+
+    if len(hasil) == 0:
+        print("Semua pengaduan sudah ditindaklanjuti.")
+    else:
+        tampil(hasil)
 
 def menu_utama(nama, data):
     pilih = ""
@@ -181,29 +203,5 @@ def menu_utama(nama, data):
         elif pilih != "0":
             print("Pilihan tidak valid.")
 
-
-# ===== PROGRAM UTAMA =====
 users = baca_user()
 data = baca_data()
-pilih = ""
-while pilih != "0":
-    print("\n===== SELAMAT DATANG =====")
-    print("1. Login")
-    print("2. Registrasi")
-    print("0. Keluar")
-    pilih = input("Pilih: ").strip()
-    if pilih == "1":
-        nama = login(users)
-        if nama is None:
-            print("Gagal login 3 kali.")
-        else:
-            menu_utama(nama, data)
-    elif pilih == "2":
-        nama = input("Username baru: ").strip()
-        sandi = input("Password (min 4 karakter): ").strip()
-        if nama == "" or nama in users or len(sandi) < 4:
-            print("Gagal: username kosong/sudah dipakai atau password terlalu pendek.")
-        else:
-            users[nama] = sandi
-            simpan_user(users)
-            print("Registrasi berhasil, silakan login.")
