@@ -1,3 +1,85 @@
+judul_1 = "Evaluasi Penanganan Pengaduan Masyarakat"
+judul_2 = "Berdasarkan Status Penyelesaian, Kategori, Wilayah, dan Periode Laporan"
+kelompok = "Kelompok 5C"
+asisten = "Badra Allam Zonta"
+dosen = "(Asmuliardi Muluk, S.T., M.T.)"
+tahun = "2026"
+
+LEBAR = 90  
+
+
+def baris(teks=""):
+   
+    print("|" + teks.center(LEBAR) + "|")
+
+
+print("+" + "-" * LEBAR + "+")   
+
+baris()
+baris()
+baris()
+
+
+baris("MINI PROJECT")
+baris()
+baris("PEMROGRAMAN KOMPUTER")
+baris()
+baris("(" + judul_1 + ")")
+baris(judul_2 + ")")
+baris()
+baris()
+
+# ---------- Kelompok ----------
+baris("Oleh :")
+baris()
+baris(kelompok)
+baris()
+baris()
+
+# ---------- Anggota ----------
+baris("Anggota :")
+baris()
+baris("Anisa Syalsabila                2610931007")
+baris("Arya Rahmat Syafendra           2610932006")
+baris("Varid Febrian                   2610932018")
+baris("Talitha Nava Libna Cahyadi      2610933044")
+baris()
+baris()
+baris()
+
+# ---------- Asisten ----------
+baris("Asisten Pembimbing :")
+baris()
+baris(asisten)
+baris()
+baris()
+baris()
+
+# ---------- Dosen ----------
+baris("Dosen Pengampu :")
+baris()
+baris(dosen)
+baris()
+baris()
+baris()
+baris()
+
+# ---------- Institusi ----------
+baris("LABORATORIUM SISTEM INFORMASI DAN KEPUTUSAN")
+baris()
+baris("DEPARTEMEN TEKNIK INDUSTRI")
+baris()
+baris("FAKULTAS TEKNIK")
+baris()
+baris("UNIVERSITAS ANDALAS")
+baris()
+baris(tahun)
+
+baris()
+baris()
+baris()
+
+print("+" + "-" * LEBAR + "+")  
 import csv
 import os
 
