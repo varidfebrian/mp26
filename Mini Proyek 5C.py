@@ -25,7 +25,7 @@ baris()
 baris("PEMROGRAMAN KOMPUTER")
 baris()
 baris("(" + judul_1 + ")")
-baris(judul_2 + ")")
+baris("(" + judul_2 + ")")
 baris()
 baris()
 
