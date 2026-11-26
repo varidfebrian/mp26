@@ -7,7 +7,6 @@ tahun = "2026"
 
 LEBAR = 90  
 
-
 def baris(teks=""):
    
     print("|" + teks.center(LEBAR) + "|")
